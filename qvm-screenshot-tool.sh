@@ -413,7 +413,7 @@ if [ X"$appvm" != X"" ]; then
 
    echo "[-] start AppVM: $appvm"
    destdir=$(qvm-run -a --pass-io $appvm "xdg-user-dir PICTURES")
-   if [[ "$destdir" =~ ^/home/user* ]]; then
+   if ! [[ "$destdir" =~ ^/home/user* ]]; then
     APPVM_SHOTS_DIR=$destdir
    fi
 
