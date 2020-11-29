@@ -301,7 +301,7 @@ fi
   elif [ X"$ans" == X"Fullscreen" ]; then
      checkmaim || break
      echo "[+] capturing fullscreen desktop"      
-     maim -u $DOM0_SHOTS_DIR/$shotname || break
+     maim -u -o $DOM0_SHOTS_DIR/$shotname || break
   elif [ X"$ans" == X"Open last dialog" ]; then
      echo "[+] opening last dialog at AppVM with uploaded urls if exists"
      read_last_action_config || break
