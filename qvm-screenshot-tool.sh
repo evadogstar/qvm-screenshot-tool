@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Take screenshot in Qubes Dom0, auto copy to AppVM, upload to imgurl service
-# Dependencies: scrot at dom0 (sudo qubes-dom0-update scrot) 
+# Dependencies: maim at dom0 (sudo qubes-dom0-update maim) 
 # zenity at dom0 and at AppVM (already exists by default at fedora and dom0)
 
 # (c) https://github.com/evadogstar/qvm-screenshot-tool/ 2020
@@ -136,12 +136,12 @@ open_imgulr_upload_dialog_at_destination_appvm()
    qvm-run $appvm "zenity --text-info --width=500 --height=180 --modal --filename=$logfile --text Ready"
 }
 
-checkscrot()
+checkmaim()
 {  
-   (which scrot &>/dev/null ) || { 
-      scrotnomes="[EXIT] no \"scrot\" tool at dom0 installed use: \n\nsudo qubes-dom0-update scrot \n\ncommand to add it first"
-      printf "$scrotnomes\n" 
-      zenity --info --modal --text "$scrotnomes" &>/dev/null
+   (which maim &>/dev/null ) || { 
+      maimnomes="[EXIT] no \"maim\" tool at dom0 installed use: \n\nsudo qubes-dom0-update maim \n\ncommand to add it first"
+      printf "$maimnomes\n" 
+      zenity --info --modal --text "$maimnomes" &>/dev/null
       exit 1 
    }
 }
@@ -178,7 +178,7 @@ start_ksnapshoot()
 
  (which display &>/dev/null ) || { 
     warn="[EXIT] no \"ImageMagic\" (display) package at dom0 installeted use: \n\nsudo qubes-dom0-update ImageMagic \n\ncommand to add it first"
-    printf "$scrotnomes\n" 
+    printf "$maimnomes\n" 
     zenity --info --modal --text "$warn" &>/dev/null
     exit 1 
  }
@@ -295,13 +295,13 @@ fi
    printf "[+] starting ksnapshot..."
    start_ksnapshoot 4 $DOM0_SHOTS_DIR/$shotname || break
   elif [ X"$ans" == X"Region or Window" ]; then
-     checkscrot || break
+     checkmaim || break
      echo "[+] capturing window, click on it to select"
-     scrot -s -b $DOM0_SHOTS_DIR/$shotname || break
+     maim -s -u -o $DOM0_SHOTS_DIR/$shotname || break
   elif [ X"$ans" == X"Fullscreen" ]; then
-     checkscrot || break
+     checkmaim || break
      echo "[+] capturing fullscreen desktop"      
-     scrot -b $DOM0_SHOTS_DIR/$shotname || break
+     maim -u $DOM0_SHOTS_DIR/$shotname || break
   elif [ X"$ans" == X"Open last dialog" ]; then
      echo "[+] opening last dialog at AppVM with uploaded urls if exists"
      read_last_action_config || break
