@@ -1,13 +1,14 @@
 # qvm-screenshot-tool
 
 The _**qvm-screenshot-tool**_ is a screenshot tool for [Qubes OS](https://qubes-os.org/)<br>
-This tool provide funcionality to make screenshots at Qubes dom0 and upload it automaticaly to AppVM, to imgurl service thought this AppVm and some other taks.
+This tool provide funcionality to make screenshots at Qubes dom0, edit them and upload it automaticaly to AppVM, to imgurl service thought this AppVm and some other taks.
 This tool must be places and used only at **dom0** <br>
 No need to upload something to TemplateVM.
 
 Need example? All screenshots on this tutorial done by this tool :)
 
 # Changelog
+0.9 - version fro Qubes R4.1 based on deepin-screenshot provide new more easy way to draw, anotate on screenshots. No more scrot (it's not supported by new dom0 fedora 32)
 0.8 beta - Dom0 full log with all screenshot uploads. Possible to erase this log. Bug fix, before that all screenshots were stored at dom0 by default (thanks @heinrich-ulbricht). Now they removed by default.<br>
 0.7 beta - Now Qubes Screenshot Tool support command line arguments. You can setup some keybinding to skip all dailogs and quickly do the same job. e.g. `qvm-screenshot-tool.sh --region-only --imgurl --virtualmachine APPNAME`
 0.6 - Now possible to skip first dialog and make choice from command line: `--region-only` or `--fullscreen` 
@@ -19,14 +20,15 @@ Need example? All screenshots on this tutorial done by this tool :)
 ![screenshot png](https://i.imgur.com/UmDHZ8j.png)
 
 ### Known bugs
-0.1 beta support multi upload (you can start multiple copies if the tool at ones). This version also support then, but "editor" mode will only work on single mode. Do not launch two editors at the time before it will not be fixed. 
+
+Don't know
 
 # How to use it
 
-You will be asked for actions by GUI prompt.`qvm-screenshot-tool` support `ksnapshot` (KDE5 tool) and `scrot` console tool to make screenshots which is not available by default at dom0, but it can by simple installed to it with one command `sudo qubes-dom0-update scrot`<br> 
-![screenshot png](https://i.imgur.com/h3h1dMW.png)
+You will be asked for actions by GUI prompt.`qvm-screenshot-tool` support `ksnapshot` (KDE5 tool) and now at 0.9+ version `deepin-screenshot` console tool to make screenshots which is not available by default at dom0, but it can by simple installed to it with one command `sudo qubes-dom0-update scrot`<br> 
+![screenshot png](https://i.imgur.com/qPqItq4.png)
 
-Qubes Team plan to remove `KDE5` from Qubes by default, therefore `ksnapshot` will be also removed. Accordingly, I highly recommend to use it with `scrot`. 
+Qubes Team plan to remove `KDE5` from Qubes by default, therefore `ksnapshot` will be also removed. Accordingly, I highly recommend to use it with `deepin-screenshot`. 
 
 ### How to use the tool with Ksnapshot
 
@@ -37,7 +39,7 @@ Qubes Team plan to remove `KDE5` from Qubes by default, therefore `ksnapshot` wi
 
 ![screenshot png](https://i.imgur.com/kGMGAOr.png)
 
-### How to use it with scrot
+### How to use it with deepin-screenshot
 
 All other options on first dialog use `scrot` tool to make screenshots.
 
@@ -51,7 +53,7 @@ All other options on first dialog use `scrot` tool to make screenshots.
 
 ![screenshot png](https://i.imgur.com/r7IT8TK.png)
 
-### How to use the editon
+### How to use the ImageMagick editon (no longer need from 0.9 version, now deepin-screenshot can annotate and draw on yor images at first stage)
 
 You can edit scrrenshot before upload it to img url or move them to AppVM.
 
@@ -76,7 +78,8 @@ Descriptions of the settings
 
 Features
 ----
-* Make screenshots with ksnapshot or scrot
+* Make screenshots with ksnapshot or deepin-screenshot
+* Draw, annotate, select area on screenshot
 * Upload screenshots to AppVM
 * Auto-Start VM if it's not running
 * Upload screenshots to imgurl server and provide urls
@@ -99,7 +102,13 @@ https://groups.google.com/forum/#!topic/qubes-users/dcsRRPf0Fxk
 
 ### Manual install
 
-Just save `qvm-screenshot-tool.sh` as a file to any AppVM. Then copy it to `dom0` with the following command at dom0 terminal:
+First install dependencies: 
+
+```shell
+sudo qubes-dom0-update zenity deepin-screenshot
+```
+
+Then just save `qvm-screenshot-tool.sh` as a file to any AppVM. Then copy it to `dom0` with the following command at dom0 terminal:
 
 ```shell
 qvm-run --pass-io NAMEOFAPPVM 'cat /path/to/qvm-screenshot-tool.sh' > /home/user/Pictures/qvm-screenshot-tool.sh
@@ -129,10 +138,15 @@ Now, you are ready to setup it on some hotkey combination. Go to `System -> Keyb
 
 Dependencies
 ----
-
 Most are probably pre-installed at `Qubes OS` by default.<br>
-Tested at 3.2rc1 
 
+
+```shell
+sudo qubes-dom0-update zenity deepin-screenshot
+```
+
+* zenity
+* deepin-screenshot
 * **Linux only AppVMs supported**
 * curl at Linux AppVM
 * zenity at dom0 and at AppVM. 
@@ -156,6 +170,4 @@ How to contribute
 * Make a pull request
 * If you like this tool, you can donate Qubes OS developers https://www.qubes-os.org/donate/#bitcoin and maybe send me notification at `qubes-users` maillist that you are happy with this tool and you do that, because of it :)
 
-#### Plans
 
-* Show last uploaded urls (log) if the window was closed.
