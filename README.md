@@ -97,6 +97,7 @@ First, you **must** review the code, before upload it to dom0 ! Always do that i
 other source and other way then Qubes Team recommend it !!!
 
 Discussion thread on the qubes maillist about the code:<br>
+https://forum.qubes-os.org/t/r4-1-qubes-screenshot-tool/7005
 https://groups.google.com/forum/#!topic/qubes-users/dcsRRPf0Fxk
 
 
