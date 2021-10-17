@@ -1,12 +1,13 @@
 #!/bin/sh
 
 # Take screenshot in Qubes Dom0, auto copy to AppVM, upload to imgurl service
-# Dependencies: scrot at dom0 (sudo qubes-dom0-update scrot) 
+# Qubes R4.1 version
+# Dependencies: zenity, deepin-screenshot at dom0 (sudo qubes-dom0-update deepin-screenshot) 
 # zenity at dom0 and at AppVM (already exists by default at fedora and dom0)
 
-# (c) https://github.com/evadogstar/qvm-screenshot-tool/ 2020
+# (c) https://github.com/evadogstar/qvm-screenshot-tool/ 2021
 
-version="0.8beta"
+version="0.9"
 DOM0_SHOTS_DIR=$HOME/Pictures
 APPVM_SHOTS_DIR=/home/user/Pictures
 QUBES_DOM0_APPVMS=/var/lib/qubes/appvms/
@@ -136,12 +137,12 @@ open_imgulr_upload_dialog_at_destination_appvm()
    qvm-run $appvm "zenity --text-info --width=500 --height=180 --modal --filename=$logfile --text Ready"
 }
 
-checkscrot()
+checkdeepinscreenshot()
 {  
-   (which scrot &>/dev/null ) || { 
-      scrotnomes="[EXIT] no \"scrot\" tool at dom0 installed use: \n\nsudo qubes-dom0-update scrot \n\ncommand to add it first"
-      printf "$scrotnomes\n" 
-      zenity --info --modal --text "$scrotnomes" &>/dev/null
+   (which deepin-screenshot &>/dev/null ) || { 
+      warn="[EXIT] no \"deepin-screenshot\" tool at dom0 installed use: \n\nsudo qubes-dom0-update deepin-screenshot \n\ncommand to add it first"
+      printf "$warn\n" 
+      zenity --info --modal --text "$warn" &>/dev/null
       exit 1 
    }
 }
@@ -178,7 +179,14 @@ start_ksnapshoot()
 
  (which display &>/dev/null ) || { 
     warn="[EXIT] no \"ImageMagic\" (display) package at dom0 installeted use: \n\nsudo qubes-dom0-update ImageMagic \n\ncommand to add it first"
-    printf "$scrotnomes\n" 
+    printf "$warn\n" 
+    zenity --info --modal --text "$warn" &>/dev/null
+    exit 1 
+ }
+
+ (which import &>/dev/null ) || { 
+    warn="[EXIT] no \"ImageMagic\" (import) package at dom0 installeted use: \n\nsudo qubes-dom0-update ImageMagic \n\ncommand to add it first"
+    printf "$warn\n" 
     zenity --info --modal --text "$warn" &>/dev/null
     exit 1 
  }
@@ -295,13 +303,14 @@ fi
    printf "[+] starting ksnapshot..."
    start_ksnapshoot 4 $DOM0_SHOTS_DIR/$shotname || break
   elif [ X"$ans" == X"Region or Window" ]; then
-     checkscrot || break
+     checkdeepinscreenshot || break
      echo "[+] capturing window, click on it to select"
-     scrot -s -b $DOM0_SHOTS_DIR/$shotname || break
+     deepin-screenshot --save-path $DOM0_SHOTS_DIR/$shotname || break
   elif [ X"$ans" == X"Fullscreen" ]; then
-     checkscrot || break
+     checkdeepinscreenshot || break
      echo "[+] capturing fullscreen desktop"      
-     scrot -b $DOM0_SHOTS_DIR/$shotname || break
+     #deepin-screenshot --fullscreen --save-path $DOM0_SHOTS_DIR/$shotname || break
+     import -window root $DOM0_SHOTS_DIR/$shotname || break
   elif [ X"$ans" == X"Open last dialog" ]; then
      echo "[+] opening last dialog at AppVM with uploaded urls if exists"
      read_last_action_config || break
