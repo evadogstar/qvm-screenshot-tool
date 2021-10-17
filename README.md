@@ -17,7 +17,7 @@ Need example? All screenshots on this tutorial done by this tool :)
 0.3 beta - fixed some minor issues with user "pictures" dir name on destination VM. (multilingual) <br>
 0.2 beta - Now the tool support editing images at dom0. You can aanotane any text to screenshot, crop image, composite, draw the lines and use filters! Read how to do that below.<br>
 
-![screenshot png](https://i.imgur.com/UmDHZ8j.png)
+![screenshot png](https://i.imgur.com/qPqItq4.png)
 
 ### Known bugs
 
@@ -25,8 +25,8 @@ Don't know
 
 # How to use it
 
-You will be asked for actions by GUI prompt.`qvm-screenshot-tool` support `ksnapshot` (KDE5 tool) and now at 0.9+ version `deepin-screenshot` console tool to make screenshots which is not available by default at dom0, but it can by simple installed to it with one command `sudo qubes-dom0-update scrot`<br> 
-![screenshot png](https://i.imgur.com/qPqItq4.png)
+You will be asked for actions by GUI prompt.`qvm-screenshot-tool` support `ksnapshot` (KDE5 tool) and now at 0.9+ version `deepin-screenshot` console tool to make screenshots which is not available by default at dom0, but it can by simple installed to it with one command `sudo qubes-dom0-update deepin-screenshot zenity`<br> 
+![screenshot png](https://i.imgur.com/h3h1dMW.png)
 
 Qubes Team plan to remove `KDE5` from Qubes by default, therefore `ksnapshot` will be also removed. Accordingly, I highly recommend to use it with `deepin-screenshot`. 
 
